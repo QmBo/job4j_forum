@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.forum.model.Post;
+import ru.job4j.forum.model.User;
 import ru.job4j.forum.service.PostService;
-
-import javax.servlet.http.HttpServletRequest;
+import ru.job4j.forum.service.UserService;
 
 /**
  * EditControl
@@ -20,15 +20,18 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 public class EditControl {
-    private PostService service;
+    private PostService postService;
+    private UserService userService;
 
     /**
      * Instantiates a new Edit control.
      *
-     * @param service the service
+     * @param service     the postService
+     * @param userService the user service
      */
-    public EditControl(PostService service) {
-        this.service = service;
+    public EditControl(PostService service, UserService userService) {
+        this.postService = service;
+        this.userService = userService;
     }
 
     /**
@@ -50,7 +53,7 @@ public class EditControl {
             model.addAttribute("errorMessage", "Topic create error.");
         }
         if (id != null) {
-            model.addAttribute("oldPost", this.service.getById(new Post().setId(Integer.valueOf(id))));
+            model.addAttribute("oldPost", this.postService.getById(new Post().setId(Long.valueOf(id))));
         }
         if (answerFor != null) {
             model.addAttribute("answerFor", answerFor);
@@ -62,16 +65,38 @@ public class EditControl {
     /**
      * Create topic string.
      *
-     * @param req the req
+     * @param name        the name
+     * @param description the description
+     * @param author      the author
+     * @param oldPostId   the old post id
+     * @param answerFor   the answer for
      * @return the string
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createTopic(HttpServletRequest req) {
+    public String createTopic(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String oldPostId,
+            @RequestParam(required = false) String answerFor) {
         String result = "redirect:/create?error=true";
-        Post post = this.service.addOrUpdateTopic(req);
-        int id = post.getId();
-        if (id != 0) {
-            result = String.format("redirect:/post?id=%s", id);
+        if (name != null && description != null && author != null) {
+            User user = this.userService.getUserByName(author);
+            Post post = new Post().setAuthor(user).setDescription(description).setName(name);
+            if (oldPostId != null) {
+                post = this.postService.updatePost(post.setId(Long.valueOf(oldPostId)));
+            } else {
+                if (answerFor != null) {
+                    post.setTopicPost(this.postService.getById(new Post().setId(Long.valueOf(answerFor))));
+                } else {
+                    post.setTopic(true);
+                }
+                post = this.postService.addPost(post);
+            }
+            if (post.getId() != 0L) {
+                post = this.postService.getTopic(post);
+                result = String.format("redirect:/post?id=%s", post.getId());
+            }
         }
         return result;
     }

@@ -59,8 +59,8 @@ public class RegControl {
     public String createUser(@RequestParam String username, @RequestParam String password, HttpServletRequest req) {
         String result = "redirect:/reg?error=true";
         User user = new User().setName(username).setPassword(password);
-        boolean add = this.service.addUser(user);
-        if (add) {
+        User add = this.service.addUser(user);
+        if (add.getId() != 0L) {
             req.getSession().setAttribute("login", username);
             result = "redirect:/index";
         }

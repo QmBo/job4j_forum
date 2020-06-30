@@ -64,10 +64,12 @@ public class LoginControl {
      */
     @PostMapping("/login")
     public String loginCheck(@RequestParam String username, @RequestParam String password, HttpServletRequest req) {
+        String result = "redirect:/login?error=true";
         if (this.userService.isCredentials(new User().setName(username).setPassword(password))) {
             req.getSession().setAttribute("login", username);
+            result = "redirect:/index";
         }
-        return "redirect:/index";
+        return result;
     }
 
     /**

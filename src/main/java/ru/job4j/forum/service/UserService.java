@@ -2,9 +2,8 @@ package ru.job4j.forum.service;
 
 import org.springframework.stereotype.Service;
 import ru.job4j.forum.model.User;
+import ru.job4j.forum.store.UserRepository;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * UserService
@@ -15,14 +14,15 @@ import java.util.List;
  */
 @Service
 public class UserService {
-    private final List<User> userList = new ArrayList<>(100);
+    private final UserRepository userList;
 
     /**
      * Instantiates a new User service.
+     *
+     * @param userList the user list
      */
-    public UserService() {
-        this.userList.add(new User().setName("user").setPassword("123456"));
-        this.userList.add(new User().setName("admin").setPassword("123456"));
+    public UserService(UserRepository userList) {
+        this.userList = userList;
     }
 
     /**
@@ -31,8 +31,8 @@ public class UserService {
      * @param user the user
      * @return the boolean
      */
-    public boolean addUser(final User user) {
-        return this.userList.add(user);
+    public User addUser(final User user) {
+        return this.userList.save(user);
     }
 
     /**
@@ -41,8 +41,8 @@ public class UserService {
      * @param author the author
      * @return the user by name
      */
-    User getUserByName(String author) {
-        return this.userList.stream().filter(user -> author.equals(user.getName())).findFirst().orElse(null);
+    public User getUserByName(final String author) {
+        return this.userList.findByName(author).orElse(null);
     }
 
     /**
@@ -52,7 +52,7 @@ public class UserService {
      * @return the boolean
      */
     public boolean loginAvailable(final String login) {
-        return this.userList.stream().noneMatch(user -> user.getName().equals(login));
+        return !this.userList.findByName(login).isPresent();
     }
 
     /**
@@ -61,14 +61,7 @@ public class UserService {
      * @param user the user
      * @return the boolean
      */
-    public boolean isCredentials(User user) {
-        boolean result = false;
-        User userByName = this.getUserByName(user.getName());
-        if (userByName != null) {
-            if (userByName.getPassword().equals(user.getPassword())) {
-                result = true;
-            }
-        }
-        return result;
+    public boolean isCredentials(final User user) {
+        return this.userList.findByNameAndPassword(user.getName(), user.getPassword()).isPresent();
     }
 }

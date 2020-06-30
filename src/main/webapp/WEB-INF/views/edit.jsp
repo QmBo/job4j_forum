@@ -45,7 +45,7 @@
         <input type="hidden" name="author" value="${login}">
         <c:if test="${not empty oldPost}">
             <c:set var="nameVal" value="${oldPost.name}"/>
-            <c:set var="descriptionVal" value="${oldPost.desc}"/>
+            <c:set var="descriptionVal" value="${oldPost.description}"/>
             <input type="hidden" name="oldPostId" value="${oldPost.id}">
         </c:if>
         <c:if test="${not empty oldPost && !oldPost.topic}">

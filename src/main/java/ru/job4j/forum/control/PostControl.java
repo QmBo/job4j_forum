@@ -40,7 +40,7 @@ public class PostControl {
     public String showPost(@RequestParam(required = false)String id, Model model) {
         String result = "redirect:/";
         if (id != null) {
-            Post post = this.postService.getById(new Post().setId(Integer.parseInt(id)));
+            Post post = this.postService.getById(new Post().setId(Long.valueOf(id)));
             if (post != null) {
                 model.addAttribute("post", post);
                 result = "post";

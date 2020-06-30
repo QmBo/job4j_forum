@@ -1,5 +1,6 @@
 package ru.job4j.forum.model;
 
+import javax.persistence.*;
 import java.util.*;
 
 /**
@@ -9,14 +10,23 @@ import java.util.*;
  * @version 0.1
  * @since 26.06.2020
  */
-public class Post {
-    private int id;
+@Entity
+@Table(name = "posts")
+public class Post implements Comparable<Post> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
-    private String desc;
+    private String description;
     private Calendar created = new GregorianCalendar();
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(foreignKeyDefinition = "USER_ID_FK"))
     private User author;
-    private List<Post> answers = new LinkedList<>();
-    private boolean topic = false;
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = Post.class, mappedBy = "topicPost")
+    private List<Post> answers;
+    private boolean topic;
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(foreignKeyDefinition = "POST_ID_FK"))
     private Post topicPost;
 
     /**
@@ -24,7 +34,7 @@ public class Post {
      *
      * @return the id
      */
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -34,7 +44,7 @@ public class Post {
      * @param id the id
      * @return the id
      */
-    public Post setId(int id) {
+    public Post setId(Long id) {
         this.id = id;
         return this;
     }
@@ -74,8 +84,8 @@ public class Post {
      *
      * @return the desc
      */
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
     /**
@@ -84,8 +94,8 @@ public class Post {
      * @param desc the desc
      * @return the desc
      */
-    public Post setDesc(String desc) {
-        this.desc = desc;
+    public Post setDescription(String desc) {
+        this.description = desc;
         return this;
     }
 
@@ -136,17 +146,8 @@ public class Post {
      * @return the answers
      */
     public List<Post> getAnswers() {
-        return answers;
-    }
-
-    /**
-     * Add answer.
-     *
-     * @param answer the answer
-     */
-    synchronized public void  addAnswer(final Post answer) {
-        answer.setTopicPost(this);
-        this.answers.add(answer);
+        this.answers.sort(Post::compareTo);
+        return this.answers;
     }
 
     /**
@@ -163,6 +164,7 @@ public class Post {
      *
      * @param topic the topic
      * @return the topic
+     * @noinspection UnusedReturnValue
      */
     public Post setTopic(boolean topic) {
         this.topic = topic;
@@ -183,7 +185,7 @@ public class Post {
      *
      * @param topicPost the topic post
      */
-    private void setTopicPost(Post topicPost) {
+    public void setTopicPost(Post topicPost) {
         this.topicPost = topicPost;
 
     }
@@ -197,17 +199,23 @@ public class Post {
             return false;
         }
         Post post = (Post) o;
-        return id == post.id
-                && topic == post.topic
+        return Objects.equals(id, post.id)
                 && Objects.equals(name, post.name)
-                && Objects.equals(desc, post.desc)
+                && Objects.equals(description, post.description)
                 && Objects.equals(created, post.created)
                 && Objects.equals(author, post.author)
-                && Objects.equals(answers, post.answers);
+                && Objects.equals(topic, post.topic)
+                && Objects.equals(topicPost, post.topicPost);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, desc, created, author, answers, topic);
+
+        return Objects.hash(id, name, description, created, author, topic, topicPost);
+    }
+
+    @Override
+    public int compareTo(Post o) {
+        return this.created.compareTo(o.getCreated());
     }
 }
