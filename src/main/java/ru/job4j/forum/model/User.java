@@ -1,5 +1,7 @@
 package ru.job4j.forum.model;
 
+import javax.persistence.*;
+
 /**
  * User
  *
@@ -7,9 +9,34 @@ package ru.job4j.forum.model;
  * @version 0.1
  * @since 26.06.2020
  */
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String password;
+
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     * @return the id
+     */
+    public User setId(Long id) {
+        this.id = id;
+        return this;
+    }
 
     /**
      * Gets name.
