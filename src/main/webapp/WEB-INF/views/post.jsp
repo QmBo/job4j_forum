@@ -31,7 +31,7 @@
         <h5 class="card-header">${post.name}</h5>
         <div class="card-body">
             <h5 class="card-title">${post.author.name}</h5>
-            <p class="card-text">${post.desc}</p>
+            <p class="card-text">${post.description}</p>
             <p class="card-text"><small class="text-muted">${post.created.time}</small></p>
             <%--@elvariable id="login" type="java.lang.String"--%>
             <c:if test="${login == post.author.name}">
@@ -43,7 +43,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">${answer.author.name}</h5>
-                <p class="card-text">${answer.desc}</p>
+                <p class="card-text">${answer.description}</p>
                 <p class="card-text"><small class="text-muted">${answer.created.time}</small></p>
                 <c:if test="${login == answer.author.name}">
                     <a href="${URL}/create?id=${answer.id}" class="btn btn-primary">Edit</a>
