@@ -13,4 +13,9 @@ notifications:
 
 jdk:
   - oraclejdk14
-  -
+
+services:
+- postgresql
+
+before_install:
+- psql -c 'create database forum;' -U postgres
