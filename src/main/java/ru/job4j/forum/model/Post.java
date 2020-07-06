@@ -15,7 +15,7 @@ import java.util.*;
 public class Post implements Comparable<Post> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     private String name;
     private String description;
     private Calendar created = new GregorianCalendar();

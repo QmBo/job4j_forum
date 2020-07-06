@@ -29,10 +29,9 @@ public class UserService {
      * Add user.
      *
      * @param user the user
-     * @return the boolean
      */
-    public User addUser(final User user) {
-        return this.userList.save(user);
+    public void addUser(final User user) {
+        this.userList.save(user);
     }
 
     /**
