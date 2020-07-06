@@ -84,14 +84,14 @@ public class EditControl {
             User user = this.userService.getUserByName(author);
             Post post = new Post().setAuthor(user).setDescription(description).setName(name);
             if (oldPostId != null) {
-                post = this.postService.updatePost(post.setId(Long.valueOf(oldPostId)));
+                this.postService.updatePost(post.setId(Long.valueOf(oldPostId)));
             } else {
                 if (answerFor != null) {
                     post.setTopicPost(this.postService.getById(new Post().setId(Long.valueOf(answerFor))));
                 } else {
                     post.setTopic(true);
                 }
-                post = this.postService.addPost(post);
+                this.postService.addPost(post);
             }
             if (post.getId() != 0L) {
                 post = this.postService.getTopic(post);
