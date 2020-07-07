@@ -23,6 +23,7 @@
                 <db.password>password</db.password>
                 <db.driver>org.postgresql.Driver</db.driver>
                 <powermock.version>2.0.5</powermock.version>
+                <jdk>14</jdk>
             </properties>
             <build>
                 <plugins>
@@ -52,9 +53,9 @@
         </profile>
         <profile>
             <id>production</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
+            <properties>
+                <jdk>1.8</jdk>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -107,6 +108,9 @@
         </profile>
         <profile>
             <id>travis</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
                 <db.url>jdbc:postgresql://localhost/forum</db.url>
                 <db.username>postgres</db.username>
@@ -114,6 +118,7 @@
                 <db.password></db.password>
                 <db.driver>org.postgresql.Driver</db.driver>
                 <powermock.version>2.0.5</powermock.version>
+                <jdk>14</jdk>
             </properties>
             <build>
                 <plugins>
@@ -143,8 +148,8 @@
         </profile>
     </profiles>
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>${jdk}</maven.compiler.source>
+        <maven.compiler.target>${jdk}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
