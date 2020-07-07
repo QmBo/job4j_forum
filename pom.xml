@@ -27,18 +27,18 @@
         </profile>
         <profile>
             <id>production</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
-                <db.url>jdbc:postgresql://127.0.0.1:5432/forum</db.url>
-                <db.username>postgres</db.username>
-                <db.password>password</db.password>
+                <db.url>jdbc:postgresql://ec2-18-214-211-47.compute-1.amazonaws.com:5432/d3bd815luc6mui</db.url>
+                <db.username>nyuupikuxrpycz</db.username>
+                <db.password>4286b876093af10ac0dfe1b197850f9f77234b4758d965bd2c22c43ee0656772</db.password>
                 <db.driver>org.postgresql.Driver</db.driver>
             </properties>
         </profile>
         <profile>
             <id>travis</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <properties>
                 <db.url>jdbc:postgresql://localhost/forum</db.url>
                 <db.username>postgres</db.username>
