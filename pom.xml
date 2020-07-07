@@ -170,6 +170,7 @@
                 <driver>${db.driver}</driver>
                 <username>${db.username}</username>
                 <password>${db.password}</password>
+                <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
             </configuration>
             <executions>
                 <execution>
