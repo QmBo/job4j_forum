@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import ru.job4j.forum.model.Post;
 import ru.job4j.forum.store.PostRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,10 +40,9 @@ public class PostService {
      * Add post post.
      *
      * @param post the post
-     * @return the post
      */
-    public Post addPost(final Post post) {
-        return this.posts.save(post);
+    public void addPost(final Post post) {
+        this.posts.save(post);
     }
 
     /**
@@ -61,16 +59,10 @@ public class PostService {
      * Update post post.
      *
      * @param post the post
-     * @return the post
      */
-    public Post updatePost(final Post post) {
-        List<Post> result = new ArrayList<>(100);
+    public void updatePost(final Post post) {
         this.posts.findById(post.getId())
-                .ifPresent(p -> result.add(
-                        this.addPost(p.setName(post.getName()).setDescription(post.getDescription()))
-                        )
-                );
-        return result.size() == 1 ? result.get(0) : null;
+                .ifPresent(p -> this.addPost(p.setName(post.getName()).setDescription(post.getDescription())));
     }
 
     /**
