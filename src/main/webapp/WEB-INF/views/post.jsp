@@ -1,5 +1,6 @@
 <%--suppress JSUnresolvedLibraryURL --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%--@elvariable id="post" type="ru.job4j.forum.model.Post"--%>
 <c:set var="post" value="${post}"/>
@@ -15,28 +16,35 @@
     <title>Topic - ${post.name}</title>
 </head>
 <body>
-<div class="container mt-3">
-    <div class="row">
-        <div class="col-8">
-            <a href="${URL}/" class="stretched-link"><h4>Форум job4j</h4></a>
-        </div>
-        <div class="col-2">
-            <a href="${URL}/create" class="btn btn-success">New Topic</a>
-        </div>
-        <div class="col-2">
-            <a href="${URL}/logout" class="btn btn-danger">Logout</a>
-        </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="${URL}/">Форум job4j</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="${URL}/create">Новая тема</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="${URL}/logout">Выйти</a>
+            </li>
+        </ul>
     </div>
+</nav>
+<div class="container mt-3">
     <div class="card">
         <h5 class="card-header">${post.name}</h5>
         <div class="card-body">
             <h5 class="card-title">${post.author.name}</h5>
             <p class="card-text">${post.description}</p>
-            <p class="card-text"><small class="text-muted">${post.created.time}</small></p>
+            <p class="card-text"><small class="text-muted"><fmt:formatDate value="${post.created.time}" pattern="HH:mm:ss dd/MM/yyyy" /></small>
             <%--@elvariable id="login" type="java.lang.String"--%>
             <c:if test="${login == post.author.name}">
-                <a href="${URL}/create?id=${post.id}" class="btn btn-primary">Edit</a>
+                <a href="${URL}/create?id=${post.id}" class="btn btn-primary">Редактировать</a>
             </c:if>
+            </p>
         </div>
     </div>
     <c:forEach items="${post.answers}" var="answer">
@@ -44,17 +52,18 @@
             <div class="card-body">
                 <h5 class="card-title">${answer.author.name}</h5>
                 <p class="card-text">${answer.description}</p>
-                <p class="card-text"><small class="text-muted">${answer.created.time}</small></p>
+                <p class="card-text"><small class="text-muted"><fmt:formatDate value="${answer.created.time}" pattern="HH:mm:ss dd/MM/yyyy" /></small>
                 <c:if test="${login == answer.author.name}">
-                    <a href="${URL}/create?id=${answer.id}" class="btn btn-primary">Edit</a>
+                    <a href="${URL}/create?id=${answer.id}" class="btn btn-primary">Редактировать</a>
                 </c:if>
+                </p>
             </div>
         </div>
     </c:forEach>
 
     <div class="row">
         <div class="col-2">
-            <a href="${URL}/create?answerFor=${post.id}" class="btn btn-success">Comment</a>
+            <a href="${URL}/create?answerFor=${post.id}" class="btn btn-success">Ответить</a>
         </div>
     </div>
 </div>

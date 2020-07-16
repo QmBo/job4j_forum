@@ -26,15 +26,20 @@
     <title>${titel}</title>
 </head>
 <body>
-<div class="container mt-3">
-    <div class="row">
-        <div class="col-10">
-            <a href="${URL}/"><h4>Форум job4j</h4></a>
-        </div>
-        <div class="col-2">
-            <a href="${URL}/logout" class="btn btn-danger">Logout</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="${URL}/">Форум job4j</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" href="${URL}/create">Новая тема</a>
+            <a class="nav-link" href="${URL}/logout">Выйти</a>
         </div>
     </div>
+</nav>
+<div class="container mt-3">
     <%--@elvariable id="errorMessage" type="java.lang.String"--%>
     <c:if test="${not empty errorMessage}">
         <div class="alert alert-danger" role="alert">
@@ -57,15 +62,15 @@
         </c:if>
         <c:if test="${(oldPost.topic || empty oldPost) && empty answerFor}">
             <div class="form-group">
-                <label for="name">Topic name</label>
-                <input type="text" class="form-control" name="name" id="name" placeholder="Topic name" value="${nameVal}">
+                <label for="name">Имя темы</label>
+                <input type="text" class="form-control" name="name" id="name" placeholder="Имя темы" value="${nameVal}">
             </div>
         </c:if>
         <div class="form-group">
-            <label for="description">Message</label>
-            <textarea class="form-control" name="description" id="description" rows="3" placeholder="Message">${descriptionVal}</textarea>
+            <label for="description">Сообщение</label>
+            <textarea class="form-control" name="description" id="description" rows="3" placeholder="Сообщение">${descriptionVal}</textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Создать</button>
     </form>
 </div>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

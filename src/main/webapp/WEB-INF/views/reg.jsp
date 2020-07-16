@@ -3,6 +3,7 @@
   <%--suppress ELValidationInJSP --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="URL" value="${pageContext.servletContext.contextPath}"/>
 <html>
 <head>
     <!-- Required meta tags -->
@@ -15,6 +16,12 @@
     <title>Регистрация</title>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="${URL}/">Форум job4j</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</nav>
 <div class="container mt-3">
     <%--@elvariable id="errorMessage" type="java.lang.String"--%>
     <c:if test="${not empty errorMessage}">
@@ -24,24 +31,24 @@
     </c:if>
     <form name="login" action="<c:url value='/reg'/>" method="POST">
         <div class="form-group" >
-            <label for="name">User Name</label>
+            <label for="name">Имя пользователя</label>
             <input type="text" class="form-control" name="username" id="name">
             <div class="alert alert-danger sr-only" role="alert" id="loginAlert">
-                Login is already used.
+                Такой пользователь уже существует.
             </div>
         </div>
         <div class="form-group">
-            <label for="password">Password</label>
+            <label for="password">Пароль</label>
             <input type="password"  name="password" class="form-control" id="password">
         </div>
         <div class="form-group">
-            <label for="password2">Conform Password</label>
+            <label for="password2">Подтверждение пароля</label>
             <input type="password"  name="password2" class="form-control" id="password2">
             <div class="alert alert-danger sr-only" role="alert" id="passwordAlert">
-                Password does not match.
+                Пароль не совзадает.
             </div>
         </div>
-        <button type="submit" id="button" class="btn btn-primary" onclick="return check()" disabled="disabled">Submit</button>
+        <button type="submit" id="button" class="btn btn-primary" onclick="return check()" disabled="disabled">Зарегистрироваться</button>
     </form>
 </div>
 <script src="http://code.jquery.com/jquery-3.5.1.js"

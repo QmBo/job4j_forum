@@ -37,7 +37,7 @@ class LoginControlTest {
         this.mockMvc.perform(get("/login?error=true"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("errorMessage", "Username or Password is incorrect !!"))
+                .andExpect(model().attribute("errorMessage", "Имя пользователя или пароль введены не правильно!!"))
                 .andExpect(view().name("login"));
     }
 
@@ -46,7 +46,7 @@ class LoginControlTest {
         this.mockMvc.perform(get("/login?logout=true"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("errorMessage", "You have been successfully logged out !!"))
+                .andExpect(model().attribute("errorMessage", "Вы удачно вышли из системы!!"))
                 .andExpect(view().name("login"));
     }
 
