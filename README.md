@@ -3,7 +3,10 @@
 Представляет из себя форум.
 Данный проект реализован при прохождение курса [Java Job4j.ru](https://job4j.ru/)
 
-##Демонстрация
+## Демонстрация
+
+![](PrintScreen.png)
+
 Проект развёрнут на портале [Heroku](https://vast-peak-67874.herokuapp.com/)
 
 ##  Примечания
@@ -14,3 +17,7 @@
 
 Для размещения на на Heroku потребуется настроить _Config Vars_ в _Settings_: KEY = `MAVEN_SETTINGS_PATH`,
 VALUE = `heroku-settings.xml`. Это необходимо для выбора паравильного профиля Maven.
+
+## Сылки
+
+* [Основной проэкт, демонстрирующий ООП, Java core, SOLID.](https://github.com/QmBo/job4j)
