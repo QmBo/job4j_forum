@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  db_forum:
+    image: postgres
+    container_name: db_forum
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=forum
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - ./db/forum/data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+  app:
+    image: forum
+    container_name: forum
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db_forum:5432/forum
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
+    ports:
+      - "127.0.0.1:80:8080"
+    depends_on:
+      - db_forum
