@@ -5,16 +5,22 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.2.RELEASE</version>
+        <version>2.6.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>ru.job4j</groupId>
     <artifactId>forum</artifactId>
     <version>1</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <profiles>
+        <profile>
+            <id>docker</id>
+            <properties>
+                <jdk>14</jdk>
+            </properties>
+        </profile>
         <profile>
             <id>test</id>
             <properties>
@@ -25,31 +31,6 @@
                 <powermock.version>2.0.5</powermock.version>
                 <jdk>14</jdk>
             </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.liquibase</groupId>
-                        <artifactId>liquibase-maven-plugin</artifactId>
-                        <version>3.6.2</version>
-                        <configuration>
-                            <changeLogFile>${basedir}/db/master.xml</changeLogFile>
-                            <url>${db.url}</url>
-                            <driver>${db.driver}</driver>
-                            <username>${db.username}</username>
-                            <password>${db.password}</password>
-                            <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>process-resources</phase>
-                                <goals>
-                                    <goal>update</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
         <profile>
             <id>production</id>
@@ -127,7 +108,7 @@
                         <artifactId>liquibase-maven-plugin</artifactId>
                         <version>3.6.2</version>
                         <configuration>
-                            <changeLogFile>${basedir}/db/master.xml</changeLogFile>
+                            <changeLogFile>${basedir}/src/main/resources/db/master.xml</changeLogFile>
                             <url>${db.url}</url>
                             <driver>${db.driver}</driver>
                             <username>${db.username}</username>
@@ -158,19 +139,17 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.2.12</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-dbcp2</artifactId>
-            <version>2.7.0</version>
         </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
-            <version>1.2</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -207,9 +186,15 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13.1</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
