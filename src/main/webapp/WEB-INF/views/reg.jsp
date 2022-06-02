@@ -58,9 +58,9 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script>
-    var host = 'vast-peak-67874.herokuapp.com';
-    var port = '';
-    var protocol = 'https';
+    var host = 'localhost';
+    var port = '8080';
+    var protocol = 'http';
 
     function loginAction(data) {
         if (data !== "true") {
