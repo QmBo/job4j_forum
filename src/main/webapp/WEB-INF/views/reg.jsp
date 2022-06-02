@@ -76,7 +76,7 @@
         var inputLogin = $("#name").val();
         if (inputLogin.length !== 0) {
             $.ajax({
-                url: 'http://' + host + ':' + port + '/reg/' +  inputLogin,
+                url: 'https://' + host + ':' + port + '/reg/' +  inputLogin,
                 type: 'GET',
                 dataType: 'text'
             }).done(function(data) {
